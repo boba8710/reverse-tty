@@ -8,3 +8,5 @@ client syntax:
 
 server syntax:
 `./ttyserv {port}`
+
+binaries are stripped and upx'd because otherwise they'd take up your entire hard drive
