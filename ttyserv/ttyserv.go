@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
 	"io"
 	"net"
@@ -24,7 +25,9 @@ func execute(conn net.Conn) {
 
 func main() {
 	port := os.Args[1]
-	l, err := net.Listen("tcp4", ":"+port)
+	cer, err := tls.LoadX509KeyPair("server.crt", "server.key")
+	config := &tls.Config{Certificates: []tls.Certificate{cer}}
+	l, err := tls.Listen("tcp4", ":"+port, config)
 	if err != nil {
 		fmt.Println(err)
 		return
